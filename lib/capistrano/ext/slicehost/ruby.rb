@@ -1,5 +1,5 @@
 # TODO: Automatically determine these values
-set :ruby_enterprise_version, "ruby-enterprise-1.8.6-20081215"
+set :ruby_enterprise_version, "ruby-enterprise-1.8.6-20090113"
 set :passenger_version, "2.0.6"
 
 namespace :ruby do
