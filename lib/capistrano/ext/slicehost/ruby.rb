@@ -1,6 +1,9 @@
-# TODO: Automatically determine these values
-set :ruby_enterprise_version, "ruby-enterprise-1.8.6-20090113"
+# TODO: Automatically determine this value
 set :passenger_version, "2.0.6"
+
+require 'net/http'
+set :ruby_enterprise_url ,Net::HTTP.get( 'www.rubyenterpriseedition.com', '/download.html' ).scan(/http:.*\.tar\.gz/).first
+set :ruby_enterprise_version, "#{ruby_enterprise_url[/(ruby-enterprise.*)(.tar.gz)/, 1]}"
 
 namespace :ruby do
 
@@ -18,7 +21,7 @@ namespace :ruby do
   task :install_enterprise, :roles => :app do
     sudo "aptitude install -y libssl-dev"
     run "test ! -d /opt/#{ruby_enterprise_version}"
-    run "wget -q http://rubyforge.org/frs/download.php/50087/#{ruby_enterprise_version}.tar.gz"
+    run "wget -q #{ruby_enterprise_url}"
     run "tar xzvf #{ruby_enterprise_version}.tar.gz"
     run "rm #{ruby_enterprise_version}.tar.gz"
     sudo "./#{ruby_enterprise_version}/installer --auto /opt/#{ruby_enterprise_version}"
