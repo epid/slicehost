@@ -16,8 +16,9 @@ namespace :ruby do
 
   desc "Install Ruby Enterpise Edition"
   task :install_enterprise, :roles => :app do
+    sudo "aptitude install -y libssl-dev"
     run "test ! -d /opt/#{ruby_enterprise_version}"
-    run "wget -q http://rubyforge.org/frs/download.php/41040/#{ruby_enterprise_version}.tar.gz"
+    run "wget -q http://rubyforge.org/frs/download.php/48623/#{ruby_enterprise_version}.tar.gz"
     run "tar xzvf #{ruby_enterprise_version}.tar.gz"
     run "rm #{ruby_enterprise_version}.tar.gz"
     sudo "./#{ruby_enterprise_version}/installer --auto /opt/#{ruby_enterprise_version}"
@@ -27,6 +28,7 @@ namespace :ruby do
   desc "Install Phusion Passenger"
   task :install_passenger, :roles => :app do
     sudo "apt-get install apache2-mpm-prefork"
+    sudo "aptitude install -y apache2-prefork-dev"
     sudo "/opt/#{ruby_enterprise_version}/bin/ruby /opt/#{ruby_enterprise_version}/bin/gem install passenger rake --no-rdoc --no-ri"
     sudo "PATH='/opt/#{ruby_enterprise_version}/bin/':\$PATH /opt/#{ruby_enterprise_version}/bin/ruby /opt/#{ruby_enterprise_version}/bin/passenger-install-apache2-module", :pty => true do |ch, stream, data|
 

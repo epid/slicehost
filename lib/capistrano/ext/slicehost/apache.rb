@@ -81,4 +81,9 @@ namespace :apache do
     put render("vhost", binding), application
     sudo "mv #{application} /etc/apache2/sites-available/#{application}"
   end
+  
+  desc "Install Apache"
+  task :install, :roles => :web do
+     sudo "aptitude install -y apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert"
+  end
 end
