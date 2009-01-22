@@ -18,7 +18,7 @@ namespace :ruby do
   task :install_enterprise, :roles => :app do
     sudo "aptitude install -y libssl-dev"
     run "test ! -d /opt/#{ruby_enterprise_version}"
-    run "wget -q http://rubyforge.org/frs/download.php/48623/#{ruby_enterprise_version}.tar.gz"
+    run "wget -q http://rubyforge.org/frs/download.php/50087/#{ruby_enterprise_version}.tar.gz"
     run "tar xzvf #{ruby_enterprise_version}.tar.gz"
     run "rm #{ruby_enterprise_version}.tar.gz"
     sudo "./#{ruby_enterprise_version}/installer --auto /opt/#{ruby_enterprise_version}"
