@@ -10,4 +10,15 @@ The recipes are designed to work stand alone apart from the standard set of Capi
 
   require 'capistrano/ext/slicehost' in your deploy.rb file
 
-Copyright (c) 2008 Joshua Peek, updated by Oleg Zhurbiy, released under the MIT license
+Contributors
+============
+
+* Oleg Zhurbiy
+* Thomas Balthazar
+* Fran Diéguez
+* Stephen Lumenta
+* Jared Giles
+* John Nunemaker
+* Eloy Duran
+
+Copyright (c) 2009 Joshua Peek, released under the MIT license

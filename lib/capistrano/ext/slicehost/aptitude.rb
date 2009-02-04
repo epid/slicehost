@@ -74,18 +74,18 @@ namespace :aptitude do
     Updates software packages and creates "a solid base for the 'meat' of the \
     server". This task should be run only once when you are first setting up your \
     new slice.
-		
-		For set another language different from en_GB.UTF-8, just set the LANG \
-		environment	variable to your favorite language.
-		Ex. LANG="gl_ES.UTF-8"; cap aptitude:setup
+
+    For set another language different from en_GB.UTF-8, just set the LANG \
+    environment variable to your favorite language.
+    Ex. LANG="gl_ES.UTF-8"; cap aptitude:setup
 
     See "Update", "locales", "Upgrade" and "build essentials" sections on \
     http://articles.slicehost.com/2007/11/6/ubuntu-gutsy-setup-page-2
   DESC
   task :setup, :roles => :app do
     update
-		language = ENV["LANG"] || "en_GB.UTF-8"
-    sudo "locale-gen language"
+    language = ENV["LANG"] || "en_GB.UTF-8"
+    sudo "locale-gen #{language}"
     sudo "/usr/sbin/update-locale LANG=#{language}"
     safe_upgrade
     full_upgrade

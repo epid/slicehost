@@ -32,13 +32,13 @@ namespace :ssh do
     run "chown -R #{user}:#{user} ~/.ssh"
     run "chmod 700 ~/.ssh"
 
-    authorized_keys = ssh_options[:keys].collect { |key| 
-			begin
-				File.read("#{key}.pub")
-			rescue Errno::ENOENT => e
-			end
-			
-	  }.join("\n")
+    authorized_keys = ssh_options[:keys].collect { |key|
+      begin
+        File.read("#{key}.pub")
+      rescue Errno::ENOENT => e
+      end
+
+    }.join("\n")
     put authorized_keys, "./.ssh/authorized_keys", :mode => 0600
   end
 
