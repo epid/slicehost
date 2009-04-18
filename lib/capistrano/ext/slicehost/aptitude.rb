@@ -58,7 +58,7 @@ namespace :aptitude do
   DESC
   task :install, :roles => :app do
     package = Capistrano::CLI.ui.ask("Which package should we install: ")
-    sudo "aptitude install #{package}"
+    sudo "aptitude install -y #{package}"
   end
 
   desc <<-DESC

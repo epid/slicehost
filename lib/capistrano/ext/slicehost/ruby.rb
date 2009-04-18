@@ -1,6 +1,3 @@
-# TODO: Automatically determine this value
-set :passenger_version, "2.0.6"
-
 require 'net/http'
 
 set :ruby_enterprise_url do
@@ -9,6 +6,10 @@ end
 
 set :ruby_enterprise_version do
   "#{ruby_enterprise_url[/(ruby-enterprise.*)(.tar.gz)/, 1]}"
+end
+
+set :passenger_version do
+  capture("gem list passenger$ -r").gsub(/[\n|\s|passenger|(|)]/,"")
 end
 
 namespace :ruby do
@@ -25,7 +26,7 @@ namespace :ruby do
   desc "Install Ruby Enterpise Edition"
   task :install_enterprise, :roles => :app do
     sudo "aptitude install -y libssl-dev"
-    sudo "apt-get install libreadline5-dev"
+    sudo "apt-get install -y libreadline5-dev"
     run "test ! -d /opt/#{ruby_enterprise_version}"
     run "wget -q #{ruby_enterprise_url}"
     run "tar xzvf #{ruby_enterprise_version}.tar.gz"
@@ -39,16 +40,7 @@ namespace :ruby do
     sudo "apt-get install apache2-mpm-prefork"
     sudo "aptitude install -y apache2-prefork-dev"
     sudo "/opt/#{ruby_enterprise_version}/bin/ruby /opt/#{ruby_enterprise_version}/bin/gem install passenger rake --no-rdoc --no-ri"
-    sudo "PATH='/opt/#{ruby_enterprise_version}/bin/':\$PATH /opt/#{ruby_enterprise_version}/bin/ruby /opt/#{ruby_enterprise_version}/bin/passenger-install-apache2-module", :pty => true do |ch, stream, data|
-
-      if data =~ /Press\sEnter\sto\scontinue/ || data =~ /Press\sENTER\sto\scontinue/
-        # prompt, and then send the response to the remote process
-        ch.send_data(Capistrano::CLI.password_prompt("Press enter to continue: ") + "\n")
-      else
-        # use the default handler for all other text
-        Capistrano::Configuration.default_io_proc.call(ch, stream, data)
-       end
-    end
+    sudo "PATH='/opt/#{ruby_enterprise_version}/bin/':\$PATH /opt/#{ruby_enterprise_version}/bin/ruby /opt/#{ruby_enterprise_version}/bin/passenger-install-apache2-module --auto"
 
     put render("passenger.load", binding), "/home/#{user}/passenger.load"
     put render("passenger.conf", binding), "/home/#{user}/passenger.conf"

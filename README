@@ -3,12 +3,83 @@ Slicehost Recipes
 
 Slicehost Capistrano recipes for configuring and managing your slice. Require Capistrano >2.5.0
 
-Example
+Setup
 =======
 
 The recipes are designed to work stand alone apart from the standard set of Capistrano deploy recipes.
 
   require 'capistrano/ext/slicehost' in your deploy.rb file
+
+Slice setup recipies 
+====================
+
+Commonly used setup recipies. Check the source for more.
+
+Setup ssh, iptables and aptitude
+	cap slice:configure
+
+Setup mysql
+	cap mysql:install
+
+Install Apache
+	cap apache:install
+
+Install ruby 1.8
+	cap ruby:setup_18
+
+Install ruby enterprise
+	cap ruby:install_enterprise
+
+Install ruby gems
+	cap gems:install_rubygems
+
+Install passenger
+	cap ruby:install_passenger
+
+Upload vhost template
+	cap apache:upload_vhost
+
+Install git
+	cap git:install
+
+Maintenance recipies
+====================
+
+Commonly used maitenance recipies. Check the source for more.
+
+Show disk space
+	cap disk:free
+
+Show free memory
+	cap disk:memory
+
+Update aptitude
+	cap aptitude:update
+
+Upgrade aptitude
+	cap aptitude:upgrade
+
+Install package (it will ask you which)
+	cap aptitude:install
+
+Reload SSH
+	cap ssh:reload
+
+Install a gem (it will ask you which)
+	cap gems:intall
+
+List gems
+	cap gems:list
+
+Restart apache
+	cap apache:restart
+
+Reload apache
+	cap apache:reload
+
+Force reload apache
+	cap apache:force_reload
+
 
 Contributors
 ============
@@ -20,5 +91,7 @@ Contributors
 * Jared Giles
 * John Nunemaker
 * Eloy Duran
+* Mischa Fierer
+* Kurt Schrader
 
 Copyright (c) 2009 Joshua Peek, released under the MIT license
